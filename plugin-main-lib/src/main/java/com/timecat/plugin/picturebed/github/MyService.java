@@ -1,4 +1,4 @@
-package com.tencent.shadow.sample.plugin;
+package com.timecat.plugin.picturebed.github;
 
 import android.app.Service;
 import android.content.Intent;

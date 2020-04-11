@@ -1,7 +1,9 @@
-package com.tencent.shadow.sample.plugin;
+package com.timecat.plugin.picturebed.github;
 
 import android.app.Activity;
 import android.os.Bundle;
+
+import com.tencent.shadow.sample.plugin.R;
 
 public class MainActivity extends Activity {
     @Override

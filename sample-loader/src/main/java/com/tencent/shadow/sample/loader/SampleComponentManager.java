@@ -5,6 +5,8 @@ import android.content.Context;
 import com.tencent.shadow.core.loader.infos.ContainerProviderInfo;
 import com.tencent.shadow.core.loader.managers.ComponentManager;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +32,7 @@ public class SampleComponentManager extends ComponentManager {
      * @param pluginActivity 插件Activity
      * @return 壳子Activity
      */
+    @NotNull
     @Override
     public ComponentName onBindContainerActivity(ComponentName pluginActivity) {
         switch (pluginActivity.getClassName()) {
@@ -43,15 +46,16 @@ public class SampleComponentManager extends ComponentManager {
     /**
      * 配置对应宿主中预注册的壳子contentProvider的信息
      */
+    @NotNull
     @Override
-    public ContainerProviderInfo onBindContainerContentProvider(ComponentName pluginContentProvider) {
+    public ContainerProviderInfo onBindContainerContentProvider(@NotNull ComponentName pluginContentProvider) {
         return new ContainerProviderInfo(
                 "com.tencent.shadow.runtime.container.PluginContainerContentProvider",
                 "com.tencent.shadow.contentprovider.authority.dynamic");
     }
 
     @Override
-    public List<BroadcastInfo> getBroadcastInfoList(String partKey) {
+    public List<BroadcastInfo> getBroadcastInfoList(@NotNull String partKey) {
         List<ComponentManager.BroadcastInfo> broadcastInfos = new ArrayList<>();
 
         //如果有静态广播需要像下面代码这样注册

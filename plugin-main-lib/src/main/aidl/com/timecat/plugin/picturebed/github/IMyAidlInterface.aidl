@@ -1,5 +1,5 @@
 // IMyAidlInterface.aidl
-package com.tencent.shadow.sample.plugin;
+package com.timecat.plugin.picturebed.github;
 
 // Declare any non-default types here with import statements
 
