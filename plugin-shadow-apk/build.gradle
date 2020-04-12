@@ -4,7 +4,11 @@ apply from: '../plugin-normal-apk/build.gradle'
 android {
     defaultConfig {
         //再把applicationId改成宿主的
-        applicationId "com.tencent.shadow.sample.host"
+        applicationId "com.time.cat"
+    }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/rxjava.properties'
     }
 }
 
@@ -39,10 +43,15 @@ shadow {
                 pluginApks {
                     pluginApk1 {
                         businessName = 'picturebed'//businessName相同的插件，context获取的Dir是相同的。businessName留空，表示和宿主相同业务，直接使用宿主的Dir。
-                        partKey = 'picturebed'
+                        partKey = 'upload'
                         buildTask = 'assembleDebug'
                         apkName = 'plugin-shadow-apk-debug.apk'
                         apkPath = 'plugin-shadow-apk/build/outputs/apk/debug/plugin-shadow-apk-debug.apk'
+                        hostWhiteList = ["com.timecat.plugin.**",
+                                         "io.reactivex.**",
+                                         "okhttp3.**",
+                                         "androidx.preference.**",
+                                         "retrofit2.**"]
                     }
                 }
             }
@@ -53,10 +62,15 @@ shadow {
                 pluginApks {
                     pluginApk1 {
                         businessName = 'picturebed'
-                        partKey = 'picturebed'
+                        partKey = 'upload'
                         buildTask = 'assembleRelease'
                         apkName = 'plugin-shadow-apk-release.apk'
                         apkPath = 'plugin-shadow-apk/build/outputs/apk/release/plugin-shadow-apk-release.apk'
+                        hostWhiteList = ["com.timecat.plugin.**",
+                                         "io.reactivex.**",
+                                         "okhttp3.**",
+                                         "androidx.preference.**",
+                                         "retrofit2.**"]
                     }
                 }
             }
@@ -66,8 +80,8 @@ shadow {
 
         runtimeApkProjectPath = 'sample-runtime'
 
-        version = 4
+        version = 5
         compactVersion = [1, 2, 3]
-        uuidNickName = "1.1.5"
+        uuidNickName = "1.1.6"
     }
 }

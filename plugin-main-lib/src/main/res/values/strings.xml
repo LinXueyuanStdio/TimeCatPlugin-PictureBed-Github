@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Shadow Sample Plugin</string>
+    <string name="app_name">时光猫的图床插件 Github 版</string>
+    <string name="pref">picture_bed_github_pref</string>
 </resources>
