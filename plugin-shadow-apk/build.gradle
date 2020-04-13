@@ -51,6 +51,7 @@ shadow {
                                          "io.reactivex.**",
                                          "okhttp3.**",
                                          "androidx.preference.**",
+                                         "retrofit2",
                                          "retrofit2.**"]
                     }
                 }
@@ -70,6 +71,7 @@ shadow {
                                          "io.reactivex.**",
                                          "okhttp3.**",
                                          "androidx.preference.**",
+                                         "retrofit2",
                                          "retrofit2.**"]
                     }
                 }

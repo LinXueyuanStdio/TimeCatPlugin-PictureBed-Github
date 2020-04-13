@@ -1,13 +1,19 @@
 package com.timecat.plugin.picturebed.github;
 
-import androidx.appcompat.app.AppCompatActivity;
+import android.app.Activity;
+import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+import com.timecat.plugin.window.StandOutWindow;
+
+import java.util.Calendar;
+
+public class MainActivity extends Activity {
     @Override
-    protected void onResume() {
-        super.onResume();
-        getSupportFragmentManager().beginTransaction()
-                .replace(android.R.id.content, new PreferenceFragment())
-                .commit();
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        int a = Calendar.getInstance().get(Calendar.DAY_OF_YEAR);
+        int b = Calendar.getInstance().get(Calendar.SECOND);
+        StandOutWindow.show(this, GithubAppService.class, a * 1000 + b);
+        finish();
     }
 }

@@ -5,9 +5,6 @@ import android.content.SharedPreferences;
 import android.util.Base64;
 import android.util.Log;
 
-import com.tencent.shadow.sample.plugin.R;
-import com.timecat.plugin.picturebed.PluginAgreement;
-import com.timecat.plugin.picturebed.Work;
 import com.timecat.plugin.picturebed.github.pojo.GitFile;
 import com.timecat.plugin.picturebed.github.pojo.GitFileResponse;
 import com.timecat.plugin.picturebed.github.pojo.SmallCommitter;
@@ -40,7 +37,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * @description null
  * @usage null
  */
-public class UploadWork implements PluginAgreement {
+public class UploadWork {
 
     private Context context;
     private GithubService githubService;
@@ -125,7 +122,6 @@ public class UploadWork implements PluginAgreement {
         }
     }
 
-    @Override
     public void work(String s, final Work work) {
         Log.e("Github", "upload begin");
         StatusView statusView = new StatusView(context);
