@@ -73,6 +73,11 @@ public class GithubApp extends StandOutWindow {
         return (int) (((float) pixels) * (((float) context.getResources().getDisplayMetrics().densityDpi) / 160.0f));
     }
 
+    @Override
+    public int getThemeStyle() {
+        return android.R.style.Theme_Material_NoActionBar;
+    }
+
     public StandOutLayoutParams getParams(int id, Window window) {
         int h = DEF.githubApp().getInt(getAppName() + "HEIGHT", 200);
         int w = DEF.githubApp().getInt(getAppName() + "WIDTH", 200);
@@ -92,29 +97,32 @@ public class GithubApp extends StandOutWindow {
     }
 
     public List<DropDownListItem> getDropDownItems(int id) {
-        return new ArrayList<>();
+        DropDownListItem item = new DropDownListItem(R.drawable.ic_home_white_24dp, "上传", new Runnable() {
+            @Override
+            public void run() {
+                if (githubBedView != null) {
+                    githubBedView.showHome();
+                }
+            }
+        });
+        DropDownListItem item1 = new DropDownListItem(R.drawable.ic_settings_white_24dp, "设置", new Runnable() {
+            @Override
+            public void run() {
+                if (githubBedView != null) {
+                    githubBedView.showSetting();
+                }
+            }
+        });
+        List<DropDownListItem> listItems = new ArrayList<>();
+        listItems.add(item);
+        listItems.add(item1);
+        return listItems;
     }
 
     public void createAndAttachView(int id, FrameLayout frame) {
         this.publicId = id;
-        new GithubBedView(getApplicationContext(), frame);
+        githubBedView = new GithubBedView(getApplicationContext(), frame);
     }
 
-//    <EditTextPreference
-//    android:key="repo"
-//    android:title="仓库名*" />
-//    <EditTextPreference
-//    android:key="owner"
-//    android:title="用户名*" />
-//    <EditTextPreference
-//    android:key="email"
-//    android:title="邮箱*"
-//    android:summary="提交 commit 时要用"/>
-//    <EditTextPreference
-//    android:key="GithubToken"
-//    android:summary="请到 https://github.com/settings/tokens 申请"
-//    android:title="Github Token *" />
-//    <EditTextPreference
-//    android:key="extra"
-//    android:title="备注" />
+    GithubBedView githubBedView;
 }

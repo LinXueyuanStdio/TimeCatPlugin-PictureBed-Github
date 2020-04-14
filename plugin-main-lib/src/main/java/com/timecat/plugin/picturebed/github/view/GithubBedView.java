@@ -57,6 +57,7 @@ public class GithubBedView {
     private EditText emailEt;
     private EditText tokenEt;
     private EditText pathEt;
+    private ImageButton imageButtonSettingBack;
 
     private ViewFlipper flipper;
 
@@ -87,6 +88,14 @@ public class GithubBedView {
         bindEt(emailEt, GithubSetting.email);
         bindEt(tokenEt, GithubSetting.token);
         bindEt(pathEt, GithubSetting.path);
+
+        imageButtonSettingBack = publicView.findViewById(R.id.imageButtonGalleryBack);
+        imageButtonSettingBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchView(0);
+            }
+        });
     }
 
     private void bindEt(final EditText editText, final GithubSetting setting) {
@@ -262,8 +271,16 @@ public class GithubBedView {
         return Bitmap.createBitmap(img, 0, 0, img.getWidth(), img.getHeight(), matrix, true);
     }
 
-    public void switchView(int index) {
+    private void switchView(int index) {
         flipper.setDisplayedChild(index);
+    }
+
+    public void showSetting() {
+        switchView(2);
+    }
+
+    public void showHome() {
+        switchView(0);
     }
 
     class GenerateThumbAsync extends AsyncTask<Object, Void, Bitmap> {
