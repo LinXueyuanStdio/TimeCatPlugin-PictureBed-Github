@@ -47,10 +47,13 @@ shadow {
                         buildTask = 'assembleDebug'
                         apkName = 'plugin-shadow-apk-debug.apk'
                         apkPath = 'plugin-shadow-apk/build/outputs/apk/debug/plugin-shadow-apk-debug.apk'
-                        hostWhiteList = ["com.timecat.plugin.**",
+                        hostWhiteList = ["com.timecat.**",
+                                         "com.timecat",
+                                         "com.tencent.**",
                                          "io.reactivex.**",
+                                         "io.reactivex",
                                          "okhttp3.**",
-                                         "androidx.preference.**",
+                                         "okhttp3",
                                          "retrofit2",
                                          "retrofit2.**"]
                     }
@@ -67,10 +70,13 @@ shadow {
                         buildTask = 'assembleRelease'
                         apkName = 'plugin-shadow-apk-release.apk'
                         apkPath = 'plugin-shadow-apk/build/outputs/apk/release/plugin-shadow-apk-release.apk'
-                        hostWhiteList = ["com.timecat.plugin.**",
+                        hostWhiteList = ["com.timecat.**",
+                                         "com.timecat",
+                                         "com.tencent.**",
                                          "io.reactivex.**",
+                                         "io.reactivex",
                                          "okhttp3.**",
-                                         "androidx.preference.**",
+                                         "okhttp3",
                                          "retrofit2",
                                          "retrofit2.**"]
                     }

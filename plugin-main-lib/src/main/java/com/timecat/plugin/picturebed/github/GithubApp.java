@@ -15,7 +15,7 @@ import com.timecat.plugin.window.Window;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GithubAppService extends StandOutWindow {
+public class GithubApp extends StandOutWindow {
     private Context context;
     private int publicId;
     private View publicView;
