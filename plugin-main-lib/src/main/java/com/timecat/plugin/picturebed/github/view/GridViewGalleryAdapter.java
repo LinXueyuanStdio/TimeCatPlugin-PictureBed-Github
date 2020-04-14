@@ -1,4 +1,4 @@
-package com.timecat.plugin.picturebed.github;
+package com.timecat.plugin.picturebed.github.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+
+import com.timecat.plugin.picturebed.github.R;
 
 import java.util.ArrayList;
 

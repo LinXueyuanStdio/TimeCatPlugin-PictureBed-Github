@@ -1,10 +1,11 @@
-package com.timecat.plugin.picturebed.github;
+package com.timecat.plugin.picturebed.github.view;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Base64;
 import android.util.Log;
 
+import com.timecat.plugin.picturebed.github.R;
 import com.timecat.plugin.picturebed.github.pojo.GitFile;
 import com.timecat.plugin.picturebed.github.pojo.GitFileResponse;
 import com.timecat.plugin.picturebed.github.pojo.SmallCommitter;
@@ -139,11 +140,15 @@ public class UploadWork {
             String encode2String = base64Encode2String(bytes);
             String prefName = context.getResources().getString(R.string.pref);
             SharedPreferences pref = context.getSharedPreferences(prefName, Context.MODE_PRIVATE);
-            String owner = pref.getString("owner", GithubService.owner);
-            String email = pref.getString("email", GithubService.email);
-            String repo = pref.getString("repo", GithubService.repo);
-            String GithubToken = pref.getString("GithubToken", GithubService.GithubToken);
-            GitFile gitFile = new GitFile(encode2String, "", new SmallCommitter(owner, email));
+            String owner =GithubService.owner;// pref.getString("owner", GithubService.owner);
+            String email =GithubService.email;// pref.getString("email", GithubService.email);
+            String repo =GithubService.repo;// pref.getString("repo", GithubService.repo);
+            String GithubToken =GithubService.GithubToken;// pref.getString("GithubToken", GithubService.GithubToken);
+            GitFile gitFile = new GitFile(encode2String, "msg", new SmallCommitter(owner, email));
+            Log.e("Github", owner);
+            Log.e("Github", repo);
+            Log.e("Github", GithubToken);
+            Log.e("Github", path);
             if (work != null) {
                 work.uploading();
             }

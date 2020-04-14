@@ -1,4 +1,4 @@
-package com.timecat.plugin.picturebed.github;
+package com.timecat.plugin.picturebed.github.view;
 
 import com.timecat.plugin.picturebed.github.pojo.GitFile;
 import com.timecat.plugin.picturebed.github.pojo.GitFileResponse;

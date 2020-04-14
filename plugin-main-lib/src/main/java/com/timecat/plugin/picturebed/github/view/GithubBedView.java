@@ -1,4 +1,4 @@
-package com.timecat.plugin.picturebed.github;
+package com.timecat.plugin.picturebed.github.view;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -11,12 +11,15 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
+
+import com.timecat.plugin.picturebed.github.R;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -29,7 +32,7 @@ import java.util.ArrayList;
  * @usage null
  */
 
-public class GithubBedCreator {
+public class GithubBedView {
 
     private ArrayList<Bitmap> arrayListBitmap = new ArrayList<>();
     private ArrayList<Integer> arrayListOrientation = new ArrayList<>();
@@ -38,8 +41,8 @@ public class GithubBedCreator {
     private GridViewGalleryAdapter gridViewGalleryAdapter;
     private ImageView imageView;
     private ImageButton imgBtnBack;
-    private ImageButton btnSelect;
-    private ImageButton btnUpload;
+    private Button btnSelect;
+    private Button btnUpload;
     private TextView tvCount;
     private TextView urlTv;
     private ViewSwitcher viewSwitcher1;
@@ -48,7 +51,7 @@ public class GithubBedCreator {
     private Context context;
     private Uri imgToUpload = null;
 
-    public GithubBedCreator(Context context, FrameLayout parent) {
+    public GithubBedView(Context context, FrameLayout parent) {
         this.context = context;
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (layoutInflater == null) return;
@@ -86,8 +89,9 @@ public class GithubBedCreator {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 imgToUpload = arrayListUri.get(position);
-                imageView.setImageBitmap(GithubBedCreator.this.getThumbnail(imgToUpload, position, 1024));
-                GithubBedCreator.this.switchView(1);
+                urlTv.setText(imgToUpload.getPath());
+                imageView.setImageBitmap(getThumbnail(imgToUpload, position, 1024));
+                switchView(1);
             }
         });
         imageView = publicView.findViewById(R.id.imageView);
@@ -95,14 +99,14 @@ public class GithubBedCreator {
         imgBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GithubBedCreator.this.switchView(0);
+                switchView(0);
             }
         });
         btnSelect = publicView.findViewById(R.id.pick);
         btnSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GithubBedCreator.this.switchView(0);
+                switchView(0);
             }
         });
         btnUpload = publicView.findViewById(R.id.upload);
@@ -133,7 +137,6 @@ public class GithubBedCreator {
             cursor.close();
         }
         switchView(0);
-        upload();
     }
 
     private void upload() {

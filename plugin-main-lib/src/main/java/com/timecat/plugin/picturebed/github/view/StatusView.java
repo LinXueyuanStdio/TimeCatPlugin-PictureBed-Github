@@ -1,4 +1,4 @@
-package com.timecat.plugin.picturebed.github;
+package com.timecat.plugin.picturebed.github.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;

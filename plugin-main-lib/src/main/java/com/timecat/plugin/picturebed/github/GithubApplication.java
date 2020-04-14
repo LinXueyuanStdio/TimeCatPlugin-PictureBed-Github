@@ -3,6 +3,8 @@ package com.timecat.plugin.picturebed.github;
 import android.app.Application;
 import android.util.Log;
 
+import com.tencent.mmkv.MMKV;
+
 /**
  * @author zby
  * @email linxy59@mail2.sysu.edu.cn
@@ -15,6 +17,7 @@ public class GithubApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Log.e("Github", "load PictureBed begin");
+        MMKV.initialize(getApplicationContext());
         Log.e("Github", "load PictureBed end");
     }
 }

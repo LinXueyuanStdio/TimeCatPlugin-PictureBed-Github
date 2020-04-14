@@ -7,10 +7,12 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 
-import com.timecat.component.setting.DEF;
+import com.timecat.plugin.picturebed.github.store.DEF;
+import com.timecat.plugin.picturebed.github.view.GithubBedView;
 import com.timecat.plugin.window.StandOutFlags;
 import com.timecat.plugin.window.StandOutWindow;
 import com.timecat.plugin.window.Window;
+import com.timecat.plugin.window.WindowAgreement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +55,7 @@ public class GithubApp extends StandOutWindow {
     }
 
     public Intent getHiddenNotificationIntent(int id) {
-        return StandOutWindow.getShowIntent(this, getClass(), id);
+        return WindowAgreement.getShowIntent(this, getClass(), id);
     }
 
     public Animation getShowAnimation(int id) {
@@ -72,10 +74,10 @@ public class GithubApp extends StandOutWindow {
     }
 
     public StandOutLayoutParams getParams(int id, Window window) {
-        int h = DEF.floatview().getInt(getAppName() + "HEIGHT", 200);
-        int w = DEF.floatview().getInt(getAppName() + "WIDTH", 200);
-        int x = DEF.floatview().getInt(getAppName() + "XPOS", Integer.MIN_VALUE);
-        int y = DEF.floatview().getInt(getAppName() + "YPOS", Integer.MIN_VALUE);
+        int h = DEF.githubApp().getInt(getAppName() + "HEIGHT", 200);
+        int w = DEF.githubApp().getInt(getAppName() + "WIDTH", 200);
+        int x = DEF.githubApp().getInt(getAppName() + "XPOS", 0);
+        int y = DEF.githubApp().getInt(getAppName() + "YPOS", 0);
         if (h < dp2px(window.getContext(), 200)) {
             h = dp2px(window.getContext(), 200);
         }
@@ -95,7 +97,7 @@ public class GithubApp extends StandOutWindow {
 
     public void createAndAttachView(int id, FrameLayout frame) {
         this.publicId = id;
-        new GithubBedCreator(getApplicationContext(), frame);
+        new GithubBedView(getApplicationContext(), frame);
     }
 
 //    <EditTextPreference

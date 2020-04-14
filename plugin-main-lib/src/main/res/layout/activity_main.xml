@@ -109,14 +109,12 @@
                                 android:id="@+id/pick"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_margin="10dp"
                                 android:text="选择图片" />
 
                             <Button
                                 android:id="@+id/upload"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_margin="10dp"
                                 android:text="上传图片" />
                         </LinearLayout>
 
@@ -126,10 +124,10 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:gravity="center"
-                            android:padding="10dp"
-                            android:text="上传中..." />
+                            android:padding="2dp"
+                            android:textColor="#ffffff" />
 
-                        <com.timecat.plugin.picturebed.github.TouchImageView
+                        <com.timecat.plugin.picturebed.github.view.TouchImageView
                             android:id="@+id/imageView"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"

@@ -6,9 +6,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.tbruyelle.rxpermissions2.Permission;
-import com.tbruyelle.rxpermissions2.RxPermissions;
-import com.timecat.plugin.window.StandOutWindow;
+import com.timecat.plugin.picturebed.github.permission.OverlayPermission;
+import com.timecat.plugin.picturebed.github.permission.Permission;
+import com.timecat.plugin.picturebed.github.permission.RxPermissions;
+import com.timecat.plugin.window.WindowAgreement;
 
 import java.util.Calendar;
 
@@ -19,28 +20,37 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Log.e("MainActivity", "begin");
+        if (!OverlayPermission.canDrawOverlays(getApplicationContext())) {
+            OverlayPermission.requestDrawOverlays(getApplicationContext());
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         requestPermission(new OnResult() {
                               @Override
                               public void go() {
-                                  Log.e("MainActivity", "begin");
+                                  Log.e("MainActivity", "go begin");
                                   int a = Calendar.getInstance().get(Calendar.DAY_OF_YEAR);
                                   int b = Calendar.getInstance().get(Calendar.SECOND);
-                                  StandOutWindow.show(MainActivity.this, GithubApp.class, a * 1000 + b);
-                                  Log.e("MainActivity", "end");
+                                  WindowAgreement.show(getApplicationContext(), GithubApp.class, a * 1000 + b);
+                                  Log.e("MainActivity", "go end");
                               }
                           },
                 Manifest.permission.INTERNET,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE);
+        Log.e("MainActivity", "end");
     }
-
 
     interface OnResult {
         void go();
     }
 
     private void requestPermission(final OnResult listener, String... permissions) {
-        new RxPermissions(this).requestEach(permissions).subscribe(new Consumer<Permission>() {
+        new RxPermissions(getFragmentManager()).requestEachCombined(permissions).subscribe(new Consumer<Permission>() {
             @Override
             public void accept(Permission permission) throws Exception {
                 if (permission.granted) {

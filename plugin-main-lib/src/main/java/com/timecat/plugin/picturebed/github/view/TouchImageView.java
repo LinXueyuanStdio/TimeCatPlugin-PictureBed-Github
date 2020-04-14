@@ -1,4 +1,4 @@
-package com.timecat.plugin.picturebed.github;
+package com.timecat.plugin.picturebed.github.view;
 
 import android.content.Context;
 import android.graphics.Matrix;
