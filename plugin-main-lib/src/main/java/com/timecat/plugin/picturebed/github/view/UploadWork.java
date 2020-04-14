@@ -1,14 +1,14 @@
 package com.timecat.plugin.picturebed.github.view;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Base64;
 import android.util.Log;
 
-import com.timecat.plugin.picturebed.github.R;
 import com.timecat.plugin.picturebed.github.pojo.GitFile;
 import com.timecat.plugin.picturebed.github.pojo.GitFileResponse;
 import com.timecat.plugin.picturebed.github.pojo.SmallCommitter;
+import com.timecat.plugin.picturebed.github.store.DEF;
+import com.timecat.plugin.picturebed.github.store.GithubSetting;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -132,27 +132,23 @@ public class UploadWork {
         }
 
         if (githubService != null) {
+            String owner = DEF.githubApp().getString(GithubSetting.owner.key, GithubSetting.owner.defaultValue);
+            String pathFormat = DEF.githubApp().getString(GithubSetting.path.key , GithubSetting.path.defaultValue );
+            String email = DEF.githubApp().getString(GithubSetting.email.key, GithubSetting.email.defaultValue);
+            String repo = DEF.githubApp().getString(GithubSetting.repo.key, GithubSetting.repo.defaultValue);
+            String GithubToken = DEF.githubApp().getString(GithubSetting.token.key, GithubSetting.token.defaultValue);
+
             File file = new File(s);
-            String today = new SimpleDateFormat("yyyyMMdd", Locale.CHINA).format(new Date());
-            String HHmm = new SimpleDateFormat("HHmm-ss-", Locale.CHINA).format(new Date());
-            String path = GithubService.imagePathPrefix + today + "/" + HHmm + file.getName();
             byte[] bytes = readFile2BytesByStream(file);
             String encode2String = base64Encode2String(bytes);
-            String prefName = context.getResources().getString(R.string.pref);
-            SharedPreferences pref = context.getSharedPreferences(prefName, Context.MODE_PRIVATE);
-            String owner =GithubService.owner;// pref.getString("owner", GithubService.owner);
-            String email =GithubService.email;// pref.getString("email", GithubService.email);
-            String repo =GithubService.repo;// pref.getString("repo", GithubService.repo);
-            String GithubToken =GithubService.GithubToken;// pref.getString("GithubToken", GithubService.GithubToken);
-            GitFile gitFile = new GitFile(encode2String, "msg", new SmallCommitter(owner, email));
-            Log.e("Github", owner);
-            Log.e("Github", repo);
-            Log.e("Github", GithubToken);
-            Log.e("Github", path);
+            String today = new SimpleDateFormat(pathFormat, Locale.CHINA).format(new Date());
+            String path = GithubService.imagePathPrefix + today + file.getName();
+            GitFile gitFile = new GitFile(encode2String, "时光猫的图床插件提供技术支持", new SmallCommitter(owner, email));
+
             if (work != null) {
                 work.uploading();
             }
-            githubService.upload(owner, repo, GithubToken, path, gitFile)
+            githubService.upload(owner, repo, path, GithubToken,  gitFile)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<GitFileResponse>() {

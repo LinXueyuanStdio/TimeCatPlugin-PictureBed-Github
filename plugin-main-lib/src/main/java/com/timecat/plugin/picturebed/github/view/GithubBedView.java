@@ -8,18 +8,23 @@ import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.ViewSwitcher;
+import android.widget.ViewFlipper;
 
 import com.timecat.plugin.picturebed.github.R;
+import com.timecat.plugin.picturebed.github.store.DEF;
+import com.timecat.plugin.picturebed.github.store.GithubSetting;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -39,15 +44,22 @@ public class GithubBedView {
     private ArrayList<Uri> arrayListUri = new ArrayList<>();
     private GridView gridView;
     private GridViewGalleryAdapter gridViewGalleryAdapter;
+
     private ImageView imageView;
     private ImageButton imgBtnBack;
     private Button btnSelect;
     private Button btnUpload;
     private TextView tvCount;
-    private TextView urlTv;
-    private ViewSwitcher viewSwitcher1;
-    private ViewSwitcher viewSwitcher2;
-    private ViewSwitcher viewSwitcher3;
+    private EditText urlTv;
+
+    private EditText ownerEt;
+    private EditText repoEt;
+    private EditText emailEt;
+    private EditText tokenEt;
+    private EditText pathEt;
+
+    private ViewFlipper flipper;
+
     private Context context;
     private Uri imgToUpload = null;
 
@@ -56,9 +68,49 @@ public class GithubBedView {
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (layoutInflater == null) return;
         View publicView = layoutInflater.inflate(R.layout.activity_main, parent, true);
-        viewSwitcher1 = publicView.findViewById(R.id.viewSwitcher1);
-        viewSwitcher2 = publicView.findViewById(R.id.viewSwitcher2);
-        viewSwitcher3 = publicView.findViewById(R.id.viewSwitcher3);
+        flipper = publicView.findViewById(R.id.vs);
+        bindMainView(publicView);
+        bindUploadView(publicView);
+        bindSettingView(publicView);
+        switchView(0);
+    }
+
+    private void bindSettingView(View publicView) {
+        ownerEt = publicView.findViewById(R.id.owner);
+        repoEt = publicView.findViewById(R.id.repo);
+        emailEt = publicView.findViewById(R.id.email);
+        tokenEt = publicView.findViewById(R.id.token);
+        pathEt = publicView.findViewById(R.id.path);
+
+        bindEt(ownerEt, GithubSetting.owner);
+        bindEt(repoEt, GithubSetting.repo);
+        bindEt(emailEt, GithubSetting.email);
+        bindEt(tokenEt, GithubSetting.token);
+        bindEt(pathEt, GithubSetting.path);
+    }
+
+    private void bindEt(final EditText editText, final GithubSetting setting) {
+        String text = DEF.githubApp().getString(setting.key, setting.defaultValue);
+        editText.setText(text);
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                DEF.githubApp().putString(setting.key, editText.getText().toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
+    private void bindMainView(View publicView) {
         gridView = publicView.findViewById(R.id.gridView);
         String[] projection = new String[]{"_id", "orientation"};
         int index = -1;
@@ -72,6 +124,7 @@ public class GithubBedView {
             Bitmap b = BitmapFactory.decodeResource(context.getResources(), R.mipmap.gallery_thumb);
             while (cursor.moveToNext()) {
                 index++;
+
                 arrayListBitmap.add(b);
                 try {
                     String ori = cursor.getString(cursor.getColumnIndexOrThrow("orientation"));
@@ -79,6 +132,10 @@ public class GithubBedView {
                 } catch (Exception e) {
                     arrayListOrientation.add(0);
                 }
+                String path = cursor.getString(cursor.getColumnIndexOrThrow("_id"));
+                Uri uri = Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, path);
+                arrayListUri.add(uri);
+                new GenerateThumbAsync().execute(uri, index);
             }
             cursor.close();
         }
@@ -94,14 +151,11 @@ public class GithubBedView {
                 switchView(1);
             }
         });
-        imageView = publicView.findViewById(R.id.imageView);
-        imgBtnBack = publicView.findViewById(R.id.imageButtonGalleryBack);
-        imgBtnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switchView(0);
-            }
-        });
+        tvCount = publicView.findViewById(R.id.textViewGalleryCount);
+        tvCount.setText(arrayListBitmap.size() + " images");
+    }
+
+    private void bindUploadView(View publicView) {
         btnSelect = publicView.findViewById(R.id.pick);
         btnSelect.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,29 +168,18 @@ public class GithubBedView {
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                btnUpload.setEnabled(false);
                 upload();
             }
         });
-        tvCount = publicView.findViewById(R.id.textViewGalleryCount);
-        tvCount.setText(arrayListBitmap.size() + " images");
-        cursor = context.getContentResolver()
-                .query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                        projection,
-                        null,
-                        null,
-                        "_id DESC");
-        index = -1;
-        if (cursor != null) {
-            while (cursor.moveToNext()) {
-                index++;
-                String path = "" + cursor.getString(cursor.getColumnIndexOrThrow("_id"));
-                Uri uri = Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, path);
-                arrayListUri.add(uri);
-                new GenerateThumbAsync().execute(uri, index);
+        imageView = publicView.findViewById(R.id.imageView);
+        imgBtnBack = publicView.findViewById(R.id.imageButtonGalleryBack);
+        imgBtnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchView(0);
             }
-            cursor.close();
-        }
-        switchView(0);
+        });
     }
 
     private void upload() {
@@ -153,11 +196,13 @@ public class GithubBedView {
 
             @Override
             public void uploadDone(String s) {
+                btnUpload.setEnabled(true);
                 urlTv.setText(s);
             }
 
             @Override
             public void uploadFail(String s) {
+                btnUpload.setEnabled(true);
                 urlTv.setText(s);
             }
         });
@@ -218,26 +263,7 @@ public class GithubBedView {
     }
 
     public void switchView(int index) {
-        switch (index) {
-            case 0:
-                viewSwitcher1.setDisplayedChild(0);
-                viewSwitcher2.setDisplayedChild(0);
-                return;
-            case 1:
-                viewSwitcher1.setDisplayedChild(0);
-                viewSwitcher2.setDisplayedChild(1);
-                return;
-            case 2:
-                viewSwitcher1.setDisplayedChild(1);
-                viewSwitcher3.setDisplayedChild(0);
-                return;
-            case 3:
-                viewSwitcher1.setDisplayedChild(1);
-                viewSwitcher3.setDisplayedChild(1);
-                return;
-            default:
-                return;
-        }
+        flipper.setDisplayedChild(index);
     }
 
     class GenerateThumbAsync extends AsyncTask<Object, Void, Bitmap> {

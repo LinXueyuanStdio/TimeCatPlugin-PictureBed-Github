@@ -18,11 +18,11 @@ import retrofit2.http.Query;
  * @usage null
  */
 public interface GithubService {
-    String GithubToken = "6e14fde960f1231468a5f41b767f01559d461b9c";
+    String GithubToken = "5345a4e1d5a1647574b67730a871f48d97f7b2c0";
     String owner = "LinXueyuanStdio";
     String email = "761516186@qq.com";
     String repo = "TimeCatOSS";
-    String imagePathPrefix = "image/";
+    String imagePathPrefix = "image/yyyyMMdd/HHmm-ss-";
     String urlPathPrefix = "http://xichen.pub/TimeCatOSS";
 
     @Headers({"Content-UsageType: application/json", "Accept: application/json"})
