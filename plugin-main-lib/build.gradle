@@ -34,4 +34,5 @@ dependencies {
     compileOnly "com.squareup.retrofit2:adapter-rxjava2:$retrofitSdkVersion"
     compileOnly "com.squareup.okhttp3:okhttp:3.10.0"
     compileOnly "io.reactivex.rxjava2:rxandroid:2.0.1"
+    compileOnly "com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar"
 }
