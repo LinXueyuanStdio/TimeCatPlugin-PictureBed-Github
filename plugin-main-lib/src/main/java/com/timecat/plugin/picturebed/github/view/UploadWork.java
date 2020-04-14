@@ -139,10 +139,10 @@ public class UploadWork {
             String GithubToken = DEF.githubApp().getString(GithubSetting.token.key, GithubSetting.token.defaultValue);
 
             File file = new File(s);
+            String today = new SimpleDateFormat("yyyyMMdd-HHmm-ss-", Locale.CHINA).format(new Date());
+            String path = pathFormat.replaceAll("/", "_") + "/" + today + file.getName();
             byte[] bytes = readFile2BytesByStream(file);
             String encode2String = base64Encode2String(bytes);
-            String today = new SimpleDateFormat(pathFormat, Locale.CHINA).format(new Date());
-            String path = GithubService.imagePathPrefix + today + file.getName();
             GitFile gitFile = new GitFile(encode2String, "时光猫的图床插件提供技术支持", new SmallCommitter(owner, email));
 
             if (work != null) {

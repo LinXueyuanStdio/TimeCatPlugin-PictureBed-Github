@@ -22,7 +22,7 @@ public interface GithubService {
     String owner = "LinXueyuanStdio";
     String email = "761516186@qq.com";
     String repo = "TimeCatOSS";
-    String imagePathPrefix = "image/yyyyMMdd/HHmm-ss-";
+    String imagePathPrefix = "image/";
     String urlPathPrefix = "http://xichen.pub/TimeCatOSS";
 
     @Headers({"Content-UsageType: application/json", "Accept: application/json"})
