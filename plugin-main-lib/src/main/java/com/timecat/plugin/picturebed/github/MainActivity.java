@@ -2,7 +2,6 @@ package com.timecat.plugin.picturebed.github;
 
 import android.Manifest;
 import android.app.Activity;
-import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -11,42 +10,28 @@ import com.timecat.plugin.picturebed.github.permission.Permission;
 import com.timecat.plugin.picturebed.github.permission.RxPermissions;
 import com.timecat.plugin.window.WindowAgreement;
 
-import java.util.Calendar;
+import java.util.Random;
 
 import io.reactivex.functions.Consumer;
 
-public class MainActivity extends Activity {
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        Log.e("MainActivity", "begin");
-        if (!OverlayPermission.canDrawOverlays(getApplicationContext())) {
-            OverlayPermission.requestDrawOverlays(getApplicationContext());
-        }
-    }
+public class MainActivity extends Activity implements OnResult {
 
     @Override
     protected void onResume() {
         super.onResume();
-        requestPermission(new OnResult() {
-                              @Override
-                              public void go() {
-                                  Log.e("MainActivity", "go begin");
-                                  int a = Calendar.getInstance().get(Calendar.DAY_OF_YEAR);
-                                  int b = Calendar.getInstance().get(Calendar.SECOND);
-                                  WindowAgreement.show(getApplicationContext(), GithubApp.class, a * 1000 + b);
-                                  Log.e("MainActivity", "go end");
-                              }
-                          },
+        if (!OverlayPermission.canDrawOverlays(getApplicationContext())) {
+            OverlayPermission.requestDrawOverlays(getApplicationContext());
+        } else requestPermission(this,
                 Manifest.permission.INTERNET,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE);
         Log.e("MainActivity", "end");
     }
 
-    interface OnResult {
-        void go();
+    @Override
+    public void go() {
+        WindowAgreement.show(getApplicationContext(), GithubApp.class, new Random().nextInt());
+        finish();
     }
 
     private void requestPermission(final OnResult listener, String... permissions) {

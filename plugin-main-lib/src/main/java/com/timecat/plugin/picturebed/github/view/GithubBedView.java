@@ -220,6 +220,7 @@ public class GithubBedView {
     public Bitmap getThumbnail(Uri uri, int index, int size) {
         try {
             InputStream input = context.getContentResolver().openInputStream(uri);
+            if (input == null) return null;
             BitmapFactory.Options onlyBoundsOptions = new BitmapFactory.Options();
             onlyBoundsOptions.inJustDecodeBounds = true;
             onlyBoundsOptions.inDither = true;
@@ -239,6 +240,7 @@ public class GithubBedView {
             bitmapOptions.inDither = true;
             bitmapOptions.inPreferredConfig = Bitmap.Config.ARGB_8888;
             input = context.getContentResolver().openInputStream(uri);
+            if (input == null) return null;
             Bitmap bitmap = BitmapFactory.decodeStream(input, null, bitmapOptions);
             input.close();
             return getRotatedBitmap(context, uri, bitmap, index);
