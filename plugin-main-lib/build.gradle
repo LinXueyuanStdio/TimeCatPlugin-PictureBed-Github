@@ -68,8 +68,7 @@ publishing {
             url = uri(packageArchiveUrl)
             credentials {
                 username = "LinXueyuanStdio"
-                password = System.getenv("GPR_KEY")
-                System.out.println(System.getenv("GPR_KEY"))
+                password = System.getenv("GITHUB_TOKEN")
             }
         }
     }
