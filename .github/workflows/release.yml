@@ -16,7 +16,7 @@ jobs:
 
       - name: load secret
         env:
-          JKS_ENCODED: ${{ secrets.GPR }}
+          GPR: ${{ secrets.GPR }}
         run: echo $GPR > github.properties
 
       - name: Build appupdater plugin
