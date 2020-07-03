@@ -24,6 +24,7 @@ buildscript {
         google()
         jcenter()
         maven { url "file:///Users/zby/Documents/GitHub/mempool/TimeCatMaven" }
+        maven { url "https://raw.githubusercontent.com/LinXueyuanStdio/TimeCatMaven/master" }
         mavenLocal()
     }
 
