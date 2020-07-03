@@ -42,8 +42,6 @@ def packageArtifactId = "picture-bed-github"
 def packageVersion = "1.0.1"
 def packageArchiveUrl = "https://maven.pkg.github.com/LinXueyuanStdio/TimeCat-Plugin-PictureBed-Github"
 def aarPath= "$buildDir/outputs/aar/${projectDir.getName()}-release.aar"
-Properties githubProperties = new Properties()
-githubProperties.load(rootProject.file('github.properties').newDataInputStream())
 
 apply plugin: 'maven-publish'
 
