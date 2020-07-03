@@ -14,10 +14,7 @@ jobs:
         with:
           java-version: 1.8
 
-      - name: load secret
+      - name: Build plugin
         env:
-          GPR: ${{ secrets.GPR }}
-        run: echo $GPR > github.properties
-
-      - name: Build appupdater plugin
+          GPR_KEY: ${{ secrets.GPR_KEY }}
         run: ./gradlew publish

@@ -69,10 +69,9 @@ publishing {
              */
             url = uri(packageArchiveUrl)
             credentials {
-                username = githubProperties.get("gpr.usr")
-                password = githubProperties.get("gpr.key")
-                System.out.println(githubProperties.get("gpr.usr"))
-                System.out.println(githubProperties.get("gpr.key"))
+                username = "LinXueyuanStdio"
+                password = System.getenv("GPR_KEY")
+                System.out.println(System.getenv("GPR_KEY"))
             }
         }
     }
