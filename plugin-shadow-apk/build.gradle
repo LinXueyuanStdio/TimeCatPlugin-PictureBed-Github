@@ -20,11 +20,17 @@ dependencies {
 
 //这段buildscript配置的dependencies是为了apply plugin: 'com.tencent.shadow.plugin'能找到实现
 buildscript {
+
+    def moduleConfigProps = new Properties()
+    File moduleConfig = rootProject.file("moduleConfig.properties")
+    if (moduleConfig.exists()) {
+        moduleConfigProps.load(new FileInputStream(moduleConfig))
+    }
+    def localMavenDir = file(moduleConfigProps.localMavenPath)
     repositories {
         google()
         jcenter()
-        maven { url "file:///Users/zby/Documents/GitHub/mempool/TimeCatMaven" }
-        maven { url "https://raw.githubusercontent.com/LinXueyuanStdio/TimeCatMaven/master" }
+        maven { url "file://${localMavenDir.absolutePath}" }
         mavenLocal()
     }
 
