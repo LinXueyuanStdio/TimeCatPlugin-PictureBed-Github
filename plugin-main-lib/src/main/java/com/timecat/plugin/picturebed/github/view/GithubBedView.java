@@ -68,7 +68,7 @@ public class GithubBedView {
         this.context = context;
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (layoutInflater == null) return;
-        View publicView = layoutInflater.inflate(R.layout.activity_main, parent, true);
+        View publicView = layoutInflater.inflate(R.layout.github_bed_view, parent, true);
         flipper = publicView.findViewById(R.id.vs);
         bindMainView(publicView);
         bindUploadView(publicView);

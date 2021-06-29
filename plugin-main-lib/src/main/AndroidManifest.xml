@@ -92,7 +92,7 @@
 
         <activity
             android:name="com.timecat.plugin.picturebed.github.MainActivity"
-            android:theme="@android:style/Theme.NoDisplay">
+            android:theme="@style/Theme.AppCompat">
             <!--路由 activity 不需要显示，所以 Theme.NoDisplay-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

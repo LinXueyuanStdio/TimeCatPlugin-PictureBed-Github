@@ -4,7 +4,8 @@ apply from: '../plugin-normal-apk/build.gradle'
 android {
     defaultConfig {
         //再把applicationId改成宿主的
-        applicationId "com.time.cat"
+//        applicationId "com.time.cat"
+        applicationId "com.timecat.fake.plugin"
     }
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
@@ -58,7 +59,6 @@ shadow {
                         hostWhiteList = [
                                 "com.tencent.mmkv.**",
                                 "com.tencent.mmkv",
-                                "androidx.**",
                                 "io.reactivex.**",
                                 "io.reactivex",
                                 "com.tbruyelle.**",
@@ -83,7 +83,6 @@ shadow {
                         hostWhiteList = [
                                 "com.tencent.mmkv.**",
                                 "com.tencent.mmkv",
-                                "androidx.**",
                                 "io.reactivex.**",
                                 "io.reactivex",
                                 "com.tbruyelle.**",

@@ -24,6 +24,8 @@ import com.timecat.plugin.picturebed.github.R;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import androidx.appcompat.view.ContextThemeWrapper;
+
 /**
  * Special view that represents a floating window.
  *
@@ -93,17 +95,20 @@ public class Window extends FrameLayout {
 
     public Window(Context context) {
         super(context);
-        mBroadcastReceiver = new C03562();
+        mBroadcastReceiver = new OrientationBroadcastReceiver();
         mContext = null;
     }
 
     public Window(final StandOutWindow context, final int id) {
         super(context);
+
         context.setTheme(context.getThemeStyle());
 
         mContext = context;
-        mBroadcastReceiver = new C03562();
-        mLayoutInflater = LayoutInflater.from(context);
+        mBroadcastReceiver = new OrientationBroadcastReceiver();
+        final Context contextThemeWrapper = new ContextThemeWrapper(context, R.style.Theme_AppCompat);
+        mLayoutInflater = LayoutInflater.from(context).cloneInContext(contextThemeWrapper);
+//        mLayoutInflater = LayoutInflater.from(context);
 
         this.cls = context.getClass();
         this.id = id;
@@ -387,7 +392,7 @@ public class Window extends FrameLayout {
      * @return The frame view containing the system window decorations.
      */
     private View getSystemDecorations() {
-        final View decorations = mLayoutInflater.inflate(R.layout.window_decorators, null);
+        final View decorations = mLayoutInflater.inflate(R.layout.window_decorators2, null);
 
         // icon
         final ImageView icon = (ImageView) decorations.findViewById(R.id.window_icon);
@@ -897,9 +902,9 @@ public class Window extends FrameLayout {
         public static final String Y_BEFORE_MAXIMIZE = "yBeforeMaximize";
     }
 
-    class C03562 extends BroadcastReceiver {
+    class OrientationBroadcastReceiver extends BroadcastReceiver {
 
-        C03562() {
+        OrientationBroadcastReceiver() {
         }
 
         public void onReceive(Context context, Intent myIntent) {
