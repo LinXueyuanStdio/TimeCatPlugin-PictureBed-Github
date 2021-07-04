@@ -92,13 +92,16 @@
 
         <activity
             android:name="com.timecat.plugin.picturebed.github.MainActivity"
-            android:theme="@style/Theme.AppCompat">
-            <!--路由 activity 不需要显示，所以 Theme.NoDisplay-->
+            android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.timecat.plugin.picturebed.github.PermissionActivity"
+            android:theme="@android:style/Theme.NoTitleBar">
         </activity>
     </application>
 

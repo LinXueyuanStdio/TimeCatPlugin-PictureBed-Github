@@ -24,8 +24,6 @@ import com.timecat.plugin.picturebed.github.R;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import androidx.appcompat.view.ContextThemeWrapper;
-
 /**
  * Special view that represents a floating window.
  *
@@ -101,14 +99,14 @@ public class Window extends FrameLayout {
 
     public Window(final StandOutWindow context, final int id) {
         super(context);
-
         context.setTheme(context.getThemeStyle());
 
         mContext = context;
         mBroadcastReceiver = new OrientationBroadcastReceiver();
-        final Context contextThemeWrapper = new ContextThemeWrapper(context, R.style.Theme_AppCompat);
-        mLayoutInflater = LayoutInflater.from(context).cloneInContext(contextThemeWrapper);
-//        mLayoutInflater = LayoutInflater.from(context);
+        mLayoutInflater = LayoutInflater.from(context);
+
+        Log.e("plugin", "context:" + context.getClass().getName());
+        Log.e("plugin", "mLayoutInflater:" + mLayoutInflater.getClass().getName());
 
         this.cls = context.getClass();
         this.id = id;
@@ -117,8 +115,7 @@ public class Window extends FrameLayout {
         this.touchInfo = new TouchInfo();
         touchInfo.ratio = (float) originalParams.width / originalParams.height;
         this.data = new Bundle();
-        DisplayMetrics metrics = mContext.getResources()
-                .getDisplayMetrics();
+        DisplayMetrics metrics = mContext.getResources().getDisplayMetrics();
         displayWidth = metrics.widthPixels;
         displayHeight = (int) (metrics.heightPixels - 25 * metrics.density);
 
@@ -251,10 +248,10 @@ public class Window extends FrameLayout {
 
                     // scale the window with anchor point set to middle
                     edit().setAnchorPoint(.5f, .5f)
-                            .setSize(
-                                    (int) (touchInfo.firstWidth * touchInfo.scale),
-                                    (int) (touchInfo.firstHeight * touchInfo.scale))
-                            .commit();
+                          .setSize(
+                                  (int) (touchInfo.firstWidth * touchInfo.scale),
+                                  (int) (touchInfo.firstHeight * touchInfo.scale))
+                          .commit();
                     break;
             }
             mContext.onResize(id, this, this, event);
@@ -392,7 +389,7 @@ public class Window extends FrameLayout {
      * @return The frame view containing the system window decorations.
      */
     private View getSystemDecorations() {
-        final View decorations = mLayoutInflater.inflate(R.layout.window_decorators2, null);
+        final View decorations = mLayoutInflater.inflate(R.layout.window_decorators, null);
 
         // icon
         final ImageView icon = (ImageView) decorations.findViewById(R.id.window_icon);
@@ -420,7 +417,7 @@ public class Window extends FrameLayout {
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-//            performClick();
+                //            performClick();
                 switch (event.getAction() & 255) {
                     case 1:
                         Window window = Window.this;
@@ -435,13 +432,13 @@ public class Window extends FrameLayout {
                                 floater.setVisibility(View.GONE);
                                 windowContent.setVisibility(View.VISIBLE);
                                 Window.this.edit()
-                                        .setSize(Window.this.data.getInt(WindowDataKeys.WIDTH_BEFORE_MAXIMIZE, -1),
-                                                Window.this.data.getInt(WindowDataKeys.HEIGHT_BEFORE_MAXIMIZE, -1))
-                                        .setPosition(GetDP(Window.this.mContext, 0)
-                                                        + Window.this.data.getInt(WindowDataKeys.X_BEFORE_MAXIMIZE, -1),
-                                                GetDP(Window.this.mContext, 0)
-                                                        + Window.this.data.getInt(WindowDataKeys.Y_BEFORE_MAXIMIZE, -1))
-                                        .commit();
+                                           .setSize(Window.this.data.getInt(WindowDataKeys.WIDTH_BEFORE_MAXIMIZE, -1),
+                                                   Window.this.data.getInt(WindowDataKeys.HEIGHT_BEFORE_MAXIMIZE, -1))
+                                           .setPosition(GetDP(Window.this.mContext, 0)
+                                                           + Window.this.data.getInt(WindowDataKeys.X_BEFORE_MAXIMIZE, -1),
+                                                   GetDP(Window.this.mContext, 0)
+                                                           + Window.this.data.getInt(WindowDataKeys.Y_BEFORE_MAXIMIZE, -1))
+                                           .commit();
                                 Window.this.clickCount = 0;
                                 break;
                             }
@@ -467,8 +464,8 @@ public class Window extends FrameLayout {
                 Window.this.data.putInt(WindowDataKeys.X_BEFORE_MAXIMIZE, params.x);
                 Window.this.data.putInt(WindowDataKeys.Y_BEFORE_MAXIMIZE, params.y);
                 Window.this.edit().setSize(GetDP(Window.this.mContext, 48), GetDP(Window.this.mContext, 48))
-                        .setPosition(0, params.y).commit();
-//                mContext.hide(id);
+                           .setPosition(0, params.y).commit();
+                //                mContext.hide(id);
             }
         });
         hide.setVisibility(View.GONE);
@@ -495,7 +492,7 @@ public class Window extends FrameLayout {
                     int oldY = data
                             .getInt(WindowDataKeys.Y_BEFORE_MAXIMIZE, -1);
                     edit().setSize(oldWidth, oldHeight).setPosition(oldX, oldY)
-                            .commit();
+                          .commit();
                 } else {
                     data.putBoolean(WindowDataKeys.IS_MAXIMIZED, true);
                     data.putInt(WindowDataKeys.WIDTH_BEFORE_MAXIMIZE,

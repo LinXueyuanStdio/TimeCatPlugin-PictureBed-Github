@@ -26,7 +26,7 @@ android {
 }
 
 dependencies {
-    implementation project(':plugin-main-lib')
+    api project(':plugin-main-lib')
 //    implementation 'androidx.appcompat:appcompat:1.0.2'
 //    implementation 'com.tencent:mmkv:1.0.16'
 //

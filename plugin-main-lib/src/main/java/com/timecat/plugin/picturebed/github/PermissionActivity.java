@@ -17,7 +17,7 @@ import java.util.Random;
 import androidx.annotation.Nullable;
 import io.reactivex.functions.Consumer;
 
-public class MainActivity extends Activity {
+public class PermissionActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,10 +43,10 @@ public class MainActivity extends Activity {
                     WindowAgreement.show(context, GithubApp.class, new Random().nextInt());
                 } else if (permission.shouldShowRequestPermissionRationale) {
                     // 用户拒绝了该权限，没有选中『不再询问』（Never ask again）,那么下次再次启动时，还会提示请求权限的对话框
-                    Toast.makeText(MainActivity.this, "没有权限，为了不崩溃，拒绝启动", Toast.LENGTH_LONG).show();
+                    Toast.makeText(PermissionActivity.this, "没有权限，为了不崩溃，拒绝启动", Toast.LENGTH_LONG).show();
                 } else {
                     // 用户拒绝了该权限，并且选中『不再询问』
-                    Toast.makeText(MainActivity.this, "没有权限，为了不崩溃，拒绝启动", Toast.LENGTH_LONG).show();
+                    Toast.makeText(PermissionActivity.this, "没有权限，为了不崩溃，拒绝启动", Toast.LENGTH_LONG).show();
                 }
                 finish();
             }

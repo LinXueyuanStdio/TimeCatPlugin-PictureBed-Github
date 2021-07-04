@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -68,6 +69,10 @@ public class GithubBedView {
         this.context = context;
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (layoutInflater == null) return;
+
+        Log.e("plugin", "context:" + context.getClass().getName());
+        Log.e("plugin", "mLayoutInflater:" + layoutInflater.getClass().getName());
+
         View publicView = layoutInflater.inflate(R.layout.github_bed_view, parent, true);
         flipper = publicView.findViewById(R.id.vs);
         bindMainView(publicView);
