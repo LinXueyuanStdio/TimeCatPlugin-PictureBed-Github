@@ -1,5 +1,4 @@
-//先照抄一下plugin-normal-apk
-apply from: '../plugin-normal-apk/build.gradle'
+apply from: "${gradle.ext.localGradleDir}/project/plugin_header.gradle"
 
 android {
     defaultConfig {

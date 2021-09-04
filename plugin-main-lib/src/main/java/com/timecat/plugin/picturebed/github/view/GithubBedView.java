@@ -103,7 +103,7 @@ public class GithubBedView {
         });
     }
 
-    private void bindEt(final EditText editText, final GithubSetting setting) {
+    private void bindEt(EditText editText, GithubSetting setting) {
         String text = DEF.githubApp().getString(setting.key, setting.defaultValue);
         editText.setText(text);
         editText.addTextChangedListener(new TextWatcher() {
