@@ -13,6 +13,7 @@ android {
 }
 
 dependencies {
+    api project(':plugin-main-lib')
     //Shadow Transform后业务代码会有一部分实际引用runtime中的类
     //如果不以compileOnly方式依赖，会导致其他Transform或者Proguard找不到这些类
     compileOnly "com.tencent.shadow.core:runtime:$shadow_version"
@@ -20,17 +21,10 @@ dependencies {
 
 //这段buildscript配置的dependencies是为了apply plugin: 'com.tencent.shadow.plugin'能找到实现
 buildscript {
-
-    def moduleConfigProps = new Properties()
-    File moduleConfig = rootProject.file("moduleConfig.properties")
-    if (moduleConfig.exists()) {
-        moduleConfigProps.load(new FileInputStream(moduleConfig))
-    }
-    def localMavenDir = file(moduleConfigProps.localMavenPath)
     repositories {
         google()
         jcenter()
-        maven { url "file://${localMavenDir.absolutePath}" }
+        maven { url "file://${gradle.ext.localMavenDir.absolutePath}" }
         mavenLocal()
     }
 
